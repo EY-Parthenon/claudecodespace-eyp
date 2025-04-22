@@ -15,10 +15,7 @@
     "vscode": {
       "extensions": [
         "github.copilot"
-      ],
-      "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash"
-      }
+      ]
     }
   }
 }
