@@ -1,12 +1,12 @@
 {
-  "name": "Claude Code Development Environment",
+  "name": "Claude Code Environment",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts"
     }
   },
-  "postCreateCommand": "npm install -g @anthropic-ai/claude-code@latest && echo 'export CLAUDE_AUTH_MODE=api_key' >> ~/.bashrc && chmod +x .devcontainer/check-api-key.sh",
+  "postCreateCommand": "npm install -g @anthropic-ai/claude-code && chmod +x .devcontainer/check-api-key.sh",
   "postStartCommand": ".devcontainer/check-api-key.sh",
   "remoteEnv": {
     "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}"
@@ -14,37 +14,11 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "github.copilot",
-        "github.vscode-pull-request-github",
-        "ms-azuretools.vscode-docker",
-        "esbenp.prettier-vscode",
-        "ms-vscode.vscode-typescript-next",
-        "dbaeumer.vscode-eslint",
-        "eamodio.gitlens"
+        "github.copilot"
       ],
       "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash",
-        "editor.formatOnSave": true,
-        "editor.tabSize": 2,
-        "files.trimTrailingWhitespace": true,
-        "files.insertFinalNewline": true,
-        "files.trimFinalNewlines": true
+        "terminal.integrated.defaultProfile.linux": "bash"
       }
     }
-  },
-  "mounts": [
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.claude,target=/home/vscode/.claude,type=bind,consistency=cached"
-  ],
-  "forwardPorts": [],
-  "onCreateCommand": "mkdir -p ~/.claude",
-  "hostRequirements": {
-    "cpus": 2,
-    "memory": "4gb",
-    "storage": "32gb"
-  },
-  "containerEnv": {
-    "DISABLE_AUTOUPDATER": "0",
-    "NODE_ENV": "development"
-  },
-  "updateContentCommand": "apt-get update && apt-get install -y ripgrep fzf jq curl git-lfs && rm -rf /var/lib/apt/lists/*"
+  }
 }
