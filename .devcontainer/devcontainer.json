@@ -1,24 +1,56 @@
 {
-	"name": "Claude Code Environment",
-	"image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-	"features": {
-		"ghcr.io/devcontainers/features/node:1": {
-			"version": "lts"
-		}
-	},
-	"postCreateCommand": "npm install -g @anthropic-ai/claude-code && echo 'export CLAUDE_AUTH_MODE=api_key' >> ~/.bashrc && chmod +x .devcontainer/check-api-key.sh",
-	"postStartCommand": ".devcontainer/check-api-key.sh",
-	"remoteEnv": {
-		"ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}"
-	},
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"github.copilot"
-			],
-			"settings": {
-				"terminal.integrated.defaultProfile.linux": "bash"
-			}
-		}
-	}
+  "name": "Claude Code Development Environment",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    }
+  },
+  "postCreateCommand": "npm install -g @anthropic-ai/claude-code@latest && echo 'export CLAUDE_AUTH_MODE=api_key' >> ~/.bashrc",
+  "postStartCommand": ".devcontainer/check-api-key.sh",
+  "remoteEnv": {
+    "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "github.copilot",
+        "github.vscode-pull-request-github",
+        "ms-azuretools.vscode-docker",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-typescript-next",
+        "dbaeumer.vscode-eslint",
+        "eamodio.gitlens"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 2,
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "files.trimFinalNewlines": true
+      }
+    }
+  },
+  // Add these folders to .gitignore to prevent committing
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.claude,target=/home/vscode/.claude,type=bind,consistency=cached"
+  ],
+  // Forward ports if you plan to use web applications
+  "forwardPorts": [],
+  // Use 'onCreateCommand' to run commands when the container is created but before the post-create command
+  "onCreateCommand": "mkdir -p ~/.claude",
+  // Give the container enough resources
+  "hostRequirements": {
+    "cpus": 2,
+    "memory": "4gb",
+    "storage": "32gb"
+  },
+  // Set environment variables for increased security
+  "containerEnv": {
+    "DISABLE_AUTOUPDATER": "0",
+    "NODE_ENV": "development"
+  },
+  // Command to run on container start
+  "updateContentCommand": "apt-get update && apt-get install -y ripgrep fzf jq curl git-lfs && rm -rf /var/lib/apt/lists/*"
 }
