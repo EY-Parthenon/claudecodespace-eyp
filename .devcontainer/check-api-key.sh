@@ -12,11 +12,10 @@ if [ -z "${ANTHROPIC_API_KEY}" ]; then
   echo "   - Click \"New secret\""
   echo "   - Name: ANTHROPIC_API_KEY"
   echo "   - Value: Your API key from Anthropic Console"
-  echo "   - Select your forked repository"
+  echo "   - Select your forked repository or 'All repositories'"
   echo ""
   echo "Alternatively, you can set the key for your current session with:"
   echo "export ANTHROPIC_API_KEY=your-api-key-here"
-  exit 1
 else
   echo "✅ ANTHROPIC_API_KEY is set"
   echo "Claude Code is ready to use. Try running: claude"
