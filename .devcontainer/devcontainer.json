@@ -14,9 +14,6 @@
     "ghcr.io/devcontainers/features/node:1": {
       "version": "20",
       "nodeGypDependencies": true
-    },
-    "ghcr.io/devcontainers/features/gcloud-cli:1": {
-      "version": "latest"
     }
   },
   
