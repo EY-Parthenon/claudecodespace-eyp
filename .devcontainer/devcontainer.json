@@ -21,7 +21,18 @@
   "containerEnv": {
     "GOOGLE_APPLICATION_CREDENTIALS": "/home/vscode/.config/gcloud/application_default_credentials.json",
     "VERTEX_AI_PROJECT": "${localEnv:GCP_PROJECT_ID}",
-    "VERTEX_AI_LOCATION": "${localEnv:GCP_REGION}"
+    "VERTEX_AI_LOCATION": "${localEnv:GCP_REGION}",
+    // Fallback environment variables for Claude Code with Vertex AI
+    "CLAUDE_CODE_USE_VERTEX": "1",
+    "CLOUD_ML_REGION": "global",
+    "ANTHROPIC_VERTEX_PROJECT_ID": "gp-ct-sbox-tas-ssg2",
+    "DISABLE_PROMPT_CACHING": "1",
+    "VERTEX_REGION_CLAUDE_3_5_HAIKU": "us-east5",
+    "VERTEX_REGION_CLAUDE_3_5_SONNET": "us-east5",
+    "VERTEX_REGION_CLAUDE_3_7_SONNET": "us-east5",
+    "VERTEX_REGION_CLAUDE_4_0_OPUS": "europe-west1",
+    "VERTEX_REGION_CLAUDE_4_0_SONNET": "us-east5",
+    "VERTEX_REGION_CLAUDE_4_1_OPUS": "europe-west1"
   },
   
   // Forward environment variables from host
