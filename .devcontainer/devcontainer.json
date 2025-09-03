@@ -1,21 +1,67 @@
 {
-  "name": "Claude Code Environment",
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "name": "Node + Python + Claude Code + Vertex AI",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  
+  // Features to add to the dev container
   "features": {
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11",
+      "installJupyterlab": false
+    },
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "lts"
+      "version": "20",
+      "nodeGypDependencies": true
+    },
+    "ghcr.io/devcontainers/features/gcloud-cli:1": {
+      "version": "latest"
     }
   },
-  "postCreateCommand": "npm install -g @anthropic-ai/claude-code && chmod +x .devcontainer/check-api-key.sh",
-  "postStartCommand": ".devcontainer/check-api-key.sh",
-  "remoteEnv": {
-    "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}"
+  
+  // Container environment variables
+  "containerEnv": {
+    "GOOGLE_APPLICATION_CREDENTIALS": "/home/vscode/.config/gcloud/application_default_credentials.json",
+    "VERTEX_AI_PROJECT": "${localEnv:GCP_PROJECT_ID}",
+    "VERTEX_AI_LOCATION": "${localEnv:GCP_REGION}"
   },
+  
+  // Forward environment variables from host
+  "remoteEnv": {
+    "GCP_PROJECT_ID": "${localEnv:GCP_PROJECT_ID}",
+    "GCP_REGION": "${localEnv:GCP_REGION}"
+  },
+  
+  // VS Code customizations
   "customizations": {
     "vscode": {
       "extensions": [
-        "github.copilot"
-      ]
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-typescript-next",
+        "googlecloudtools.cloudcode"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.formatting.provider": "black",
+        "editor.formatOnSave": true
+      }
     }
-  }
+  },
+  
+  // Post-creation commands
+  "postCreateCommand": ".devcontainer/post-create.sh",
+  
+  // Mounts for credentials persistence
+  "mounts": [
+    "source=${localEnv:HOME}/.config/gcloud,target=/home/vscode/.config/gcloud,type=bind,consistency=cached"
+  ],
+  
+  // Run as non-root user
+  "remoteUser": "vscode"
 }
